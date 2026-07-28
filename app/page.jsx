@@ -26,9 +26,21 @@ export default function Home() {
         alert(data.message);
       }
     } catch (err) {
-      console.log(err);
-      alert("Something went wrong.");
-    } finally {
+  console.log("Message:", err.message);
+  console.log("Status:", err.response?.status);
+  console.log("Data:", err.response?.data);
+  console.log("Headers:", err.response?.headers);
+
+  return NextResponse.json(
+    {
+      success: false,
+      error: err.message,
+      status: err.response?.status,
+      data: err.response?.data,
+    },
+    { status: 500 }
+  );
+} finally {
       setLoading(false);
     }
   };
