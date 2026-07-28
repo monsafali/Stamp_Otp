@@ -4,13 +4,27 @@ import { NextResponse } from "next/server";
 const BASE_URL =
   "https://es.punjab-zameen.gov.pk/eStampCitizenPortal";
 
+// const headers = {
+//   "Content-Type": "application/json",
+//   "X-Requested-With": "XMLHttpRequest",
+//   Origin: "https://es.punjab-zameen.gov.pk",
+//   Referer:
+//     "https://es.punjab-zameen.gov.pk/eStampCitizenPortal/Stamp/StampRetrieval?name=stampretrieval&vCount=990",
+// };
+
+
+
 const headers = {
   "Content-Type": "application/json",
   "X-Requested-With": "XMLHttpRequest",
   Origin: "https://es.punjab-zameen.gov.pk",
   Referer:
     "https://es.punjab-zameen.gov.pk/eStampCitizenPortal/Stamp/StampRetrieval?name=stampretrieval&vCount=990",
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/138.0 Safari/537.36",
 };
+
+
 
 export async function POST(request) {
   try {
