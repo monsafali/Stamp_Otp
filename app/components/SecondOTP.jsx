@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SecondOTP() {
@@ -12,18 +11,39 @@ export default function SecondOTP() {
   // Fixed email
   const email = "fortgold272@gmail.com";
 
+  // Load saved values from localStorage when component mounts
+  useEffect(() => {
+    const savedCnic = localStorage.getItem("challan_cnic");
+    const savedContact = localStorage.getItem("challan_contact");
+
+    if (savedCnic) {
+      setCnic(savedCnic);
+    }
+
+    if (savedContact) {
+      setContact(savedContact);
+    }
+  }, []);
+
+  // Save CNIC to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("challan_cnic", cnic);
+  }, [cnic]);
+
+  // Save phone number to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("challan_contact", contact);
+  }, [contact]);
+
   const handleVerify = async () => {
     try {
       setLoading(true);
 
-      const { data } = await axios.post(
-        "/api/ChallanOtp",
-        {
-          cnic,
-          contact,
-          email,
-        }
-      );
+      const { data } = await axios.post("/api/ChallanOtp", {
+        cnic,
+        contact,
+        email,
+      });
 
       console.log(data);
 
@@ -42,6 +62,15 @@ export default function SecondOTP() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Clear form and localStorage
+  const handleClearForm = () => {
+    setCnic("");
+    setContact("");
+
+    localStorage.removeItem("challan_cnic");
+    localStorage.removeItem("challan_contact");
   };
 
   return (
@@ -70,6 +99,14 @@ export default function SecondOTP() {
         className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded disabled:bg-gray-400"
       >
         {loading ? "Please wait..." : "Verify"}
+      </button>
+
+      <button
+        onClick={handleClearForm}
+        type="button"
+        className="w-full mt-3 bg-red-600 hover:bg-red-700 text-white py-3 rounded"
+      >
+        Clear Form
       </button>
     </div>
   );

@@ -6,6 +6,8 @@ import SecondOTP from "./components/SecondOTP";
 
 
 
+
+
 export default function Home() {
 
 
@@ -15,6 +17,7 @@ export default function Home() {
 
 <FirstOTP/>
 <SecondOTP/>
+
     </>
   );
 }

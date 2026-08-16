@@ -1,50 +1,75 @@
-
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-
 
 export default function FirstOTP() {
   const [cnic, setCnic] = useState("");
   const [contact, setContact] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Load saved CNIC and phone number
+  useEffect(() => {
+    const savedCnic = localStorage.getItem("first_otp_cnic");
+    const savedContact = localStorage.getItem("first_otp_contact");
+
+    if (savedCnic) {
+      setCnic(savedCnic);
+    }
+
+    if (savedContact) {
+      setContact(savedContact);
+    }
+  }, []);
+
+  // Save CNIC whenever it changes
+  useEffect(() => {
+    localStorage.setItem("first_otp_cnic", cnic);
+  }, [cnic]);
+
+  // Save phone whenever it changes
+  useEffect(() => {
+    localStorage.setItem("first_otp_contact", contact);
+  }, [contact]);
+
   const handleVerify = async () => {
     try {
       setLoading(true);
 
-      const { data } = await axios.post(
-        "/api/OtpSend",
-        {
-          cnic,
-          contact,
-        }
-      );
+      const { data } = await axios.post("/api/OtpSend", {
+        cnic,
+        contact,
+      });
 
       if (data.success) {
         alert("OTP sent successfully.");
       } else {
-        alert(data.message);
+        alert(data.message || "OTP sending failed.");
       }
     } catch (err) {
-  console.log("Message:", err.message);
-  console.log("Status:", err.response?.status);
-  console.log("Data:", err.response?.data);
-  console.log("Headers:", err.response?.headers);
+      console.log("Message:", err.message);
+      console.log("Status:", err.response?.status);
+      console.log("Data:", err.response?.data);
+      console.log("Headers:", err.response?.headers);
 
-  return NextResponse.json(
-    {
-      success: false,
-      error: err.message,
-      status: err.response?.status,
-      data: err.response?.data,
-    },
-    { status: 500 }
-  );
-} finally {
+      alert(
+        err.response?.data?.message ||
+          err.response?.data?.error ||
+          err.message ||
+          "Something went wrong."
+      );
+    } finally {
       setLoading(false);
     }
+  };
+
+  // Clear form + localStorage
+  const handleClearForm = () => {
+    setCnic("");
+    setContact("");
+
+    localStorage.removeItem("first_otp_cnic");
+    localStorage.removeItem("first_otp_contact");
   };
 
   return (
@@ -75,6 +100,14 @@ export default function FirstOTP() {
         className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
       >
         {loading ? "Please wait..." : "Verify & Send OTP"}
+      </button>
+
+      <button
+        type="button"
+        onClick={handleClearForm}
+        className="w-full mt-3 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700"
+      >
+        Clear Form
       </button>
     </div>
   );
