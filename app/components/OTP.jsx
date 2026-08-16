@@ -3,18 +3,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function FirstOTP() {
+export default function OTP() {
   const [cnic, setCnic] = useState("");
   const [contact, setContact] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Load saved CNIC and phone number
   useEffect(() => {
     const savedCnic = localStorage.getItem("first_otp_cnic");
     const savedContact = localStorage.getItem("first_otp_contact");
 
     if (savedCnic) {
-       // eslint-disable-next-line react-hooks/set-state-in-effect
+           // eslint-disable-next-line react-hooks/set-state-in-effect
       setCnic(savedCnic);
     }
 
@@ -23,25 +22,29 @@ export default function FirstOTP() {
     }
   }, []);
 
-  // Save CNIC whenever it changes
   useEffect(() => {
     localStorage.setItem("first_otp_cnic", cnic);
   }, [cnic]);
 
-  // Save phone whenever it changes
   useEffect(() => {
     localStorage.setItem("first_otp_contact", contact);
   }, [contact]);
 
-
   const handleVerify = async () => {
+    if (!cnic || !contact) {
+      alert("Please enter CNIC and mobile number.");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const { data } = await axios.post("/api/OtpSend", {
+      const { data } = await axios.post("/api/OTP", {
         cnic,
         contact,
       });
+
+      console.log("OTP API:", data);
 
       if (data.success) {
         alert("OTP sent successfully.");
@@ -49,14 +52,10 @@ export default function FirstOTP() {
         alert(data.message || "OTP sending failed.");
       }
     } catch (err) {
-      console.log("Message:", err.message);
-      console.log("Status:", err.response?.status);
-      console.log("Data:", err.response?.data);
-      console.log("Headers:", err.response?.headers);
+      console.error("OTP error:", err);
 
       alert(
         err.response?.data?.message ||
-          err.response?.data?.error ||
           err.message ||
           "Something went wrong."
       );
@@ -65,7 +64,6 @@ export default function FirstOTP() {
     }
   };
 
-  // Clear form + localStorage
   const handleClearForm = () => {
     setCnic("");
     setContact("");
@@ -77,11 +75,12 @@ export default function FirstOTP() {
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-lg border">
       <h2 className="text-2xl font-bold text-center mb-6">
-       CNIC Verification
+        Direct OTP
       </h2>
 
       <input
         type="number"
+
         placeholder="Enter CNIC"
         value={cnic}
         onChange={(e) => setCnic(e.target.value)}
@@ -89,7 +88,8 @@ export default function FirstOTP() {
       />
 
       <input
-           type="number"
+        type="number"
+
         placeholder="Enter Mobile Number"
         value={contact}
         onChange={(e) => setContact(e.target.value)}

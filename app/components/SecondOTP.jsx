@@ -17,6 +17,7 @@ export default function SecondOTP() {
     const savedContact = localStorage.getItem("challan_contact");
 
     if (savedCnic) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCnic(savedCnic);
     }
 
@@ -80,6 +81,7 @@ export default function SecondOTP() {
       </h2>
 
       <input
+        type="number"
         className="w-full border p-3 mb-4 rounded"
         placeholder="Enter CNIC"
         value={cnic}
@@ -87,6 +89,7 @@ export default function SecondOTP() {
       />
 
       <input
+              type="number"
         className="w-full border p-3 mb-6 rounded"
         placeholder="Enter Mobile Number"
         value={contact}

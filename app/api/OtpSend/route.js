@@ -17,6 +17,7 @@ const headers = {
 
 
 export async function POST(request) {
+
   try {
     const { cnic, contact } = await request.json();
 
