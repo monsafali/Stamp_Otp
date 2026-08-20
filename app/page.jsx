@@ -6,8 +6,9 @@ import OTP from "./components/OTP";
 import SecondOTP from "./components/SecondOTP";
 
 
+import EmailOTP from "./components/EmailOTP";
 
-
+import PDFOTP from "./components/PDFOTP";
 
 export default function Home() {
 
@@ -15,10 +16,16 @@ export default function Home() {
   return (
 
     <>
-    <FirstOTP/>
+   <FirstOTP/>
 <OTP/>
 
 <SecondOTP/>
+
+<EmailOTP/>
+
+<PDFOTP/>
+
+
 
 
     </>
