@@ -108,6 +108,7 @@ export default function PDFOTP() {
 
             <input
               id="challanNumber"
+                maxLength={16}
               type="text"
               value={challanNumber}
               onChange={(e) => setChallanNumber(e.target.value)}

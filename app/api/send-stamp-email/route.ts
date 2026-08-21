@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
 
       subject: `Stamp Number ${stampNumber} - Challan ${challanNumber}`,
 
-      text: `Your Stamp number is ${stampNumber} against Challan Number ${challanNumber}`,
+      text: `Your Stamp number is ${stampNumber} againts Challan Number ${challanNumber}`,
     });
 
     console.log("Email sent:", info.messageId);

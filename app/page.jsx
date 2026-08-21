@@ -6,9 +6,9 @@ import OTP from "./components/OTP";
 import SecondOTP from "./components/SecondOTP";
 
 
-import EmailOTP from "./components/EmailOTP";
 
 import PDFOTP from "./components/PDFOTP";
+import EmailOTP from "./components/EmailOTP";
 
 export default function Home() {
 

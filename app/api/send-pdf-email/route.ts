@@ -65,14 +65,20 @@ export async function POST(request: NextRequest) {
     await transporter.verify();
 
     // Send email
+
     const info = await transporter.sendMail({
       from: `"estamp" <${process.env.SMTP_FROM}>`,
       to: email,
 
       subject: `Stamp PDF File Key OTP - Challan ${challanNumber}`,
 
-      text: `Your Stamp PDF file Key OTP is ${otp} against Challan Number ${challanNumber}.`,
+      text: `Your Stamp PDF file Key OTP is ${otp} againts Challan Number ${challanNumber}.  <br>  Do Not Share This OTP To Anyone.`,
     });
+
+
+
+
+
 
     console.log("Email sent:", info.messageId);
 
@@ -97,3 +103,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
+
+
