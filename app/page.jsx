@@ -10,7 +10,7 @@ import SecondEmail from "./components/SecondEmail";
 export default function Home() {
   return (
     <>
-      <FirstOTP />
+      {/* <FirstOTP /> */}
 
       <OTP />
 
