@@ -1,37 +1,23 @@
-
 "use client";
 
 import FirstOTP from "./components/FirstOTP";
 import OTP from "./components/OTP";
 import SecondOTP from "./components/SecondOTP";
 
-
-
-import PDFOTP from "./components/PDFOTP";
-import EmailOTP from "./components/EmailOTP";
+import FirstEmailOTP from "./components/FirstEmail";
+import SecondEmail from "./components/SecondEmail";
 
 export default function Home() {
-
-
   return (
-
     <>
-   {/* <FirstOTP/> */}
-<OTP/>
+      <FirstOTP />
 
-<SecondOTP/>
+      <OTP />
 
-<EmailOTP/>
+      <SecondOTP />
 
-<PDFOTP/>
-
-
-
-
+      <FirstEmailOTP />
+      <SecondEmail />
     </>
   );
 }
-
-
-
-
